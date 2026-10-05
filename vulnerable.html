@@ -17,6 +17,9 @@
 
   <script>
     // load search term from the URL if there is one
+    if (!document.cookie.includes('session')) {
+  document.cookie = "session=SECRET123";
+  }
     window.onload = function () {
       const params = new URLSearchParams(location.hash.slice(1));
       const term = params.get('q');

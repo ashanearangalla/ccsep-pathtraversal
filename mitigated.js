@@ -1,5 +1,9 @@
 document.getElementById('searchBtn').addEventListener('click', doSearch);
 
+if (!document.cookie.includes('session')) {
+  document.cookie = "session=SECRET123";
+}
+
 window.onload = function () {
   const params = new URLSearchParams(location.hash.slice(1));
   const term = params.get('q');
