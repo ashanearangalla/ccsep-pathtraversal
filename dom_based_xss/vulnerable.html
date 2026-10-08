@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Search</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; }
+    #results { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+  <h1>Product Search</h1>
+
+  <input type="text" id="searchBox" placeholder="Search products...">
+  <button onclick="doSearch()">Search</button>
+  <div id="results"></div>
+
+  <script>
+    // load search term from the URL if there is one
+    if (!document.cookie.includes('session')) {
+  document.cookie = "session=SECRET123";
+  }
+    window.onload = function () {
+      const params = new URLSearchParams(location.hash.slice(1));
+      const term = params.get('q');
+      if (term) {
+        document.getElementById('searchBox').value = term;
+        renderResults(term);
+      }
+    };
+
+    function doSearch() {
+      const term = document.getElementById('searchBox').value;
+      location.hash = 'q=' + encodeURIComponent(term);
+      renderResults(term);
+    }
+
+    // vulnerable: search term goes straight into innerHTML with no escaping
+    function renderResults(term) {
+      document.getElementById('results').innerHTML =
+        "<p>Showing results for: " + term + "</p><p>0 products found.</p>";
+    }
+  </script>
+</body>
+</html>
